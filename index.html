@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>ToDoアプリ13</title>
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css'>
+<link rel='stylesheet' href='https://unpkg.com/@mdi/font@6.x/css/materialdesignicons.min.css'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900'><link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!-- <h1>My ToDo App</h1> -->
+<!-- Vueで指定された"app"要素、この中でのみVueが有効 -->
+<link href="https://fonts.googleapis.com/earlyaccess/hannari.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/earlyaccess/kokoro.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/earlyaccess/nikukyu.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/earlyaccess/nicomoji.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+Access-Control-Allow-Origin: *
+<div id="app">
+ <v-app>
+  <v-container>
+   <div class="bg-image">
+    <div class="d-flex flex-row">
+     <h1 class="slide-in underlined-text"> <span>タスク管理ツール</span> </h1>       
+      <v-img class="mt-8 ml-5"
+            :max-width="120"
+            :max-height="120"            
+            aspect-ratio="4/3"
+            cover src="https://hiyokoyarou.com/wp-content/uploads/2015/01/B6WPKsICIAEJ2iB.png">  
+    </div>  
+    <div class="bg-image">
+     <svg viewBox="0 0 3387 1270">
+      <path id="planePath" class="planePath" d="M-226 626c439,4 636,-213 934,-225 755,-31 602,769 1334,658 562,-86 668,-698 266,-908 -401,-210 -893,189 -632,630 260,441 747,121 1051,91 360,-36 889,179 889,179" />
+       <g id="plane">
+        <polygon class="fil1" points="-141,-10 199,0 -198,-72 -188,-61 -171,-57 -184,-57 " />
+        <polygon class="fil2" points="199,0 -141,-10 -163,63 -123,9 " />
+        <polygon class="fil3" points="-95,39 -113,32 -123,9 -163,63 -105,53 -108,45 -87,48 -90,45 -103,41 -94,41 " />
+        <path class="fil4" d="M-87 48l-21 -3 3 8 19 -4 -1 -1zm-26 -16l18 7 -2 -1 32 -7 -29 1 11 -4 -24 -1 -16 -18 10 23zm10 9l13 4 -4 -4 -9 0z" />
+        <polygon class="fil1" points="-83,28 -94,32 -65,31 -97,38 -86,49 -67,70 199,0 -123,9 -107,27 " />
+       </g>
+  <!-- Define the motion path animation -->
+       <animateMotion xlink:href="#plane" dur="5s" repeatCount="indefinite" rotate="auto">
+        <mpath xlink:href="#planePath" />
+       </animateMotion> 
+   </svg>
+       <br></br>
+ 　<h2 style= "color: blue" class="blink"> 
+    <v-icon>mdi-pen</v-icon>
+    <v-icon>mdi-pen</v-icon>
+      新しいタスクを↓ここにいれてね 
+    <v-icon>mdi-pen</v-icon>
+    <v-icon>mdi-pen</v-icon>
+   </h2>
+   <v-text-field
+            label="入力欄"
+            placeholder="入力欄"
+            solo-inverted
+            v-model:value="task"
+   ></v-text-field>
+     
+ <v-row >
+  <v-col style="border: 2px solid purple" class="mx-3">
+
+  タスク内容：{{ task }}　
+  </v-col>
+ </v-row>
+       <br></br>  
+ <marquee scrollamount=10><img src="https://msp.c.yimg.jp/images/v2/FUTi93tXq405grZVGgDqGwmnAdiifZOSZdUqafS39PabG6ovhKFMMJMGXakz4NBXTjk6_IjgKepDoMqmWkLKhwMiexHSKPB3wa1d7j0n5_pcIPBXswvkzZP6nb_nVFmSwoGs69xX-HUH9ZReqT8CUg_57Fn7bhRf3wD9e6W0yNj1qbNLY1mw4KxaWgl-AdtkyZ05BPpXeYMPQshKzrLVyA==/hikouki-ana.png?errorImage=false"
+width="150" height="70"></marquee> 
+<v-row>  
+ <v-col cols="2"> 
+   <v-btn color="pink" rounded v-on:click="readtaskData();"> <v-icon>mdi-panda</v-icon>登録済タスクを表示<v-icon>mdi-pig-variant-outline</v-icon> </v-btn>     
+        <br><br>
+
+   <v-btn color="primary" rounded v-on:click="addData();  buttonaddClicked()"> <v-icon>mdi-duck</v-icon>タスク　　追加　　<v-icon>mdi-cat</v-icon> </v-btn>
+    <br><br>
+   <v-btn  color="disabled"
+           v-on:click="delAll"   
+           rounded
+    >　
+     <v-icon>mdi-trash-can-outline</v-icon>全ToDo　　クリア<v-icon>mdi-trash-can-outline</v-icon>　
+   </v-btn>
+  </v-col>
+ </v-row>
+    <br></br> 
+
+    
+<div style="overflow-y: auto;">
+  <table id = "aaa" align="center" border="2" style="border-collapse: collapse;" class="result-table">
+   <tr>
+    <td style="background-color: greenyellow;">ID-No </td>
+    <td style="background-color: greenyellow;">削除 </td>
+    <td style="background-color: greenyellow;">状態 </td>   
+    <td style="background-color: greenyellow;">タスク </td>  
+   </tr>
+   <tr   v-for="(data,index) in dataList" :key="index" >
+     <td width="90" :style="{'background-color': getBackgroundColor(data)}">{{ data.ID }}</td>
+ 
+     <td :style="{'background-color': getBackgroundColor(data)}">       
+       <v-btn color="pink" 
+        v-on:click="delTodo(index);buttondelClicked()" 
+        rounded>
+        <v-icon>mdi-trash-can-outline
+        </v-icon>
+       </v-btn> 
+     </td>
+     <td width="8" :style="{'background-color': getBackgroundColor(data)}" >
+      <v-select
+        solo 
+        dense
+        cols="2"
+        density="compact"
+        hide-details
+        background-color="#FFFFFF00"
+        v-model="data.State"
+        v-bind:items="sizes"
+        v-bind:clearable="false"
+        @change="changeListStatus(index,$event)">
+      </v-select>
+    </td>
+       <!--     
+    <td width="350"  :style="{'background-color': getBackgroundColor(data)}">
+                 {{ data.Task }}
+     </td>
+     -->
+     <td width="350"  :style="{'background-color': getBackgroundColor(data)}">
+       <v-text-field
+            variant="plain"
+            dense
+            cols="2"
+            density="compact"
+            hide-details
+                solo-inverted
+            label="color: red" 
+            color="red"
+            background-color="#FFFFFF00"
+            label="入力欄"
+            placeholder="入力欄"
+            solo-inverted
+            v-model:value="data.Task"
+            v-bind:clearable="false"
+            @change="changeTask(index,$event)">        
+       </v-text-field>
+      </td>
+  </table>
+</div>
+<br></br>
+    <div>
+    <p>
+     <v-btn  color="disabled"
+           v-on:click="insAll"   
+           rounded
+    >　
+     <v-icon>mdi-arrow-left-bold-circle</v-icon>管理者用　初期データ復元<v-icon>mdi-arrow-left-bold-circle</v-icon>　
+   </v-btn>
+
+  </p>
+</div>
+    <br></br> 
+  
+ <h2 style="color:blue">目指せ！   タスククリア！</h2>
+ <v-img 
+            :width="150"
+            :height="130"
+             aspect-ratio="16/9"
+             cover          src="https://msp.c.yimg.jp/images/v2/FUTi93tXq405grZVGgDqG8WICJmD6BxXXLTtP8dilpAaOyuGFongc8Hm7mQ6ljIyO7e3k9pf43A6piZadpHPXL6YiwwJVc6cRoVW2VdEyD1y3E3aklUrCGV6GMn9eor4BGesCWnMzqHWlAgFZgQNv9MhJzloLb65W0Spr7NeaOrzE-G845rxiiRDSH0WQWwm1636mvfGJldEqRUd6aGkeAIYZSFpi9w6aae_cQLK7iM=/study_man_normal.png?errorImage=false">
+    <br></br>
+</div>
+</div>
+  </v-container>
+  </v-app>
+</div>
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js'></script><script  src="./script.js"></script>
+
+</body>
+</html>

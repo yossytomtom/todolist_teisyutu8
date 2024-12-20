@@ -1,0 +1,122 @@
+h1 {
+  font-family: "Hannari";
+  position: relative;
+  font-size: 40px;
+  padding: 10px 0;
+  text-align: center;
+  margin: 1.0em 0.5em 0.5em 1.0em;
+}
+/**/
+/*ヘッダー文字の上下にある縦カッコ*/
+h1:before {
+  content: "";
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 5px solid #00ff00;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+h2{
+ font-family:"Nico Moji";
+ font-size: 25px;
+}
+img {
+  opacity: 0.9;
+}
+
+
+.bg-image {
+  background-size:auto;
+  background-repeat:repeat;
+  background-image: url('https://sozaino.site/wp-content/uploads/2022/01/kumo47-1280x720.png');
+}
+
+html {
+  background-color: #28505D;
+}
+
+.planePath {
+  stroke: #D9DADA;
+  stroke-width: .1%;
+  stroke-width: .5%;
+  stroke-dasharray: 1% 2%;
+  stroke-linecap: round;
+  fill: none;
+}
+
+.fil1 {
+  fill: #D9DADA;
+}
+
+.fil2 {
+  fill: #C5C6C6;
+}
+
+.fil4 {
+  fill: #9D9E9E;
+}
+
+.fil3 {
+  fill: #AEAFB0;
+}
+
+
+.blink {
+	-webkit-animation: blink 1s ease infinite;
+	animation: blink 2s ease infinite;
+}
+@-webkit-keyframes blink {
+	0% {opacity: 0;}
+	100% {opacity: 1;}
+}
+@keyframes blink {
+	0% {opacity: 0;}
+	100% {opacity: 1;}
+}
+
+/**/
+/*ヘッダーの白い文字*/
+h1 {
+  /* margin: 20px; */
+  font-family: "Paytone One";
+  color: #202020;
+  text-transform: uppercase;
+  letter-spacing: -2px;
+}
+
+h1 span {
+  display: block;
+  margin: 11px 0 17px 0;
+  font-size: 80px;
+  line-height: 80px;
+  color: #f1ebe5;
+  text-shadow: 0 13.36px 8.896px #c4b59d,0 -2px 1px #fff;
+  letter-spacing: -4px;
+}
+
+/**/
+/*ヘッダーの文字が左から右にスライドイン*/
+.slide-in {
+  font-size: 30px;
+  font-weight: bold;
+  animation: slideIn 1s ease-out;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/**/
